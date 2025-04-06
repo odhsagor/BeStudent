@@ -1,5 +1,16 @@
 <?php
-require_once 'db.php';
+
+$host = 'localhost';     // or 127.0.0.1
+$dbname = 'bestudent';
+$username = 'root';      // use your MySQL username
+$password = '';          // use your MySQL password
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database Connection Failed: " . $e->getMessage());
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name       = trim($_POST['name']);
@@ -218,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="getStarted.php">Get Started</a></li>
                 <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                 <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-                <li class="nav-item"><a class="nav-link" href="#tutoring">Tutoring</a></li>
+                <li class="nav-item"><a class="nav-link" href="#SoDing">SoDing</a></li>
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
             </ul>
         </div>
@@ -280,8 +291,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="role-selector">
                                         <input type="radio" id="student" name="role" value="student" checked>
                                         <label for="student" class="role-option"><i class="fas fa-user-graduate"></i>Student</label>
-                                        <input type="radio" id="tutor" name="role" value="tutor">
-                                        <label for="tutor" class="role-option"><i class="fas fa-chalkboard-teacher"></i>SOD</label>
+                                        <input type="radio" id="SoD" name="role" value="SoD">
+                                        <label for="SoD" class="role-option"><i class="fas fa-chalkboard-teacher"></i>SoD</label>
                                         <input type="radio" id="faculty" name="role" value="faculty">
                                         <label for="faculty" class="role-option"><i class="fas fa-user-tie"></i>Faculty</label>
                                     </div>

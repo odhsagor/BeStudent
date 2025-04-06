@@ -27,7 +27,7 @@
                     <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="getStarted.php">Get Started</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tutoring">Tutoring</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#SoDing">SoDing</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 </ul>
             </div>
@@ -54,7 +54,7 @@
             
             <div class="search-bar animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="input-group">
-                    <input type="text" class="form-control search-input" placeholder="Find course materials, tutors, or groups...">
+                    <input type="text" class="form-control search-input" placeholder="Find course materials, SoDs, or groups...">
                     <button class="btn btn-gradient">
                         <i class="fas fa-search me-2"></i> Search
                     </button>
@@ -75,7 +75,7 @@
                             <i class="fas fa-user-graduate"></i>
                         </div>
                         <h3>100+</h3>
-                        <p>Active Tutors</p>
+                        <p>Active SoDs</p>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -136,7 +136,7 @@
                     <div class="feature-icon">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </div>
-                    <h3>Peer Tutoring</h3>
+                    <h3>Peer SoDing</h3>
                     <p>1:1 video sessions with top students in your courses</p>
                     <ul class="feature-tags">
                         <li>Video Call</li>
@@ -219,7 +219,7 @@
                     <div class="quote-icon">
                         <i class="fas fa-quote-left"></i>
                     </div>
-                    <p>As an international student, the tutoring sessions were a lifesaver. My tutor explained concepts in ways I could understand.</p>
+                    <p>As an international student, the SoDing sessions were a lifesaver. My SoD explained concepts in ways I could understand.</p>
                     <div class="testimonial-author-box">
                         <img src="Image/sagor.png" alt="AHM Imtiaj" class="testimonial-img">
                         <div>
@@ -256,7 +256,7 @@
                 <h2>Ready to Transform Your Learning?</h2>
                 <p>Join BeStudent today and access all features for free during our beta period</p>
                 <div class="cta-buttons">
-                    <a href="#signup" class="btn btn-gradient btn-lg">
+                    <a href="getStarted.php " class="btn btn-gradient btn-lg">
                         <i class="fas fa-user-plus me-2"></i> Sign Up Free
                     </a>
                     <a href="#demo" class="btn btn-outline-light btn-lg">
@@ -300,7 +300,7 @@
                         <ul>
                             <li><a href="#blog">Blog</a></li>
                             <li><a href="#help">Help Center</a></li>
-                            <li><a href="#tutorials">Tutorials</a></li>
+                            <li><a href="#SoDials">SoDials</a></li>
                             <li><a href="#webinars">Webinars</a></li>
                             <li><a href="#community">Community</a></li>
                         </ul>

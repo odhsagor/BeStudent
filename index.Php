@@ -27,8 +27,8 @@
                     <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="getStarted.php">Get Started</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#SoDing">SoDing</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="adminRegister.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin_login.php">Administrator Login</a></li>
                 </ul>
             </div>
         </div>
@@ -238,9 +238,9 @@
                     </div>
                     <p>The AI study assistant helped me prepare for finals by creating personalized quizzes based on my weak areas. Game changer!</p>
                     <div class="testimonial-author-box">
-                        <img src="Image/sagor.png" alt="Nahid Sumaiya Ali" class="testimonial-img">
+                        <img src="Image/sagor.png" alt="TAAA" class="testimonial-img">
                         <div>
-                            <h4>Nahid Sumaiya Ali</h4>
+                            <h4>TAAA</h4>
                             <p>Law, 3rd Year</p>
                         </div>
                     </div>

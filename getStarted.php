@@ -230,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                 <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
                 <li class="nav-item"><a class="nav-link" href="#SoDing">SoDing</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="admin_login.php">Administrator Login</a></li>
             </ul>
         </div>
     </div>

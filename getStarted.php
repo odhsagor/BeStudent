@@ -42,16 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
-<?php
-// Sample PHP snippet to handle form errors (connect backend here if needed)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Example basic validation
-    if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password'])) {
-        $error = "Please fill in all required fields.";
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,38 +56,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="css/home.css">
-    
+
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
-            --secondary-gradient: linear-gradient(135deg, #a777e3, #6e8efb);
+            --primary: #6C5CE7;
+            --secondary: #A55EEA;
+            --accent: #FD79A8;
+            --dark: #2D3436;
+            --light: #F5F6FA;
+            --white: #ffffff;
+            --gray: #64748B;
+
+            --main-gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            --glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --soft-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+            --section-padding: 6rem 0;
+            --card-radius: 1.5rem;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
             overflow-x: hidden;
         }
 
-        .text-gradient {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .navbar {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: var(--main-gradient);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.4s ease;
         }
 
-        .btn-gradient {
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-            transition: 0.3s ease;
+        .navbar.scrolled {
+            padding: 1rem 0;
+            backdrop-filter: blur(10px);
+            background: rgba(108, 92, 231, 0.9) !important;
         }
 
-        .btn-gradient:hover {
-            background: var(--secondary-gradient);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .navbar-brand img {
+            height: 3.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: rotate(-5deg) scale(1.05);
         }
 
         .get-started-container {
@@ -105,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: flex;
             align-items: center;
             padding: 100px 0;
+            margin-top: 80px; /* Added margin-top to clear navbar */
         }
 
         .welcome-card, .form-card {
@@ -132,6 +143,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .form-control:focus {
             border-color: #a777e3;
             box-shadow: 0 0 0 0.25rem rgba(167, 119, 227, 0.25);
+        }
+
+        .password-strength {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            background: #dc3545;
+            transition: all 0.3s ease;
+        }
+
+        .strength-text {
+            font-size: 0.75rem;
+        }
+
+        .btn-gradient {
+            background: var(--main-gradient);
+            border: none;
+            color: white;
+            transition: 0.3s ease;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+        }
+
+        .btn-gradient:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .role-selector {
@@ -165,21 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: rgba(110, 142, 251, 0.1);
         }
 
-        .password-strength {
-            height: 5px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .strength-bar {
-            height: 100%;
-            width: 0%;
-            background: #dc3545;
-            transition: all 0.3s ease;
-        }
-
+        /* Floating Elements Animation */
         .floating-icons {
             position: absolute;
             width: 100%;
@@ -200,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             50% { transform: translateY(-20px) rotate(5deg); }
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 768px) {
             .get-started-container {
                 padding: 60px 0;
             }
@@ -241,7 +273,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="row g-4">
-                    <!-- Left Section -->
                     <div class="col-lg-6">
                         <div class="welcome-card animate__animated animate__fadeInLeft">
                             <h1 class="display-4 fw-bold mb-4">Join <span class="text-gradient">BeStudent</span> Today</h1>
@@ -249,7 +280,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <!-- Form -->
                     <div class="col-lg-6">
                         <div class="form-card">
                             <div class="form-header text-center">
@@ -262,10 +292,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php endif; ?>
 
                             <form method="POST">
-
-                            <?php if (isset($success)): ?>
-                                <div class="alert alert-success"><?php echo $success; ?></div>
-                            <?php endif; ?>
+                                <?php if (isset($success)): ?>
+                                    <div class="alert alert-success"><?php echo $success; ?></div>
+                                <?php endif; ?>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Full Name</label>
@@ -330,7 +359,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>    
 </div>
 
-<!-- JS scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
@@ -391,5 +419,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     });
 </script>
+
 </body>
 </html>

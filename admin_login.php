@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Database connection (adjust credentials as needed)
 $host = 'localhost';
 $user = 'root';
 $password = '';
@@ -22,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password) || empty($role)) {
         $error = "Please fill in all fields, including selecting a role.";
     } else {
-        // Look for the user by email
+
         $stmt = $conn->prepare("SELECT id, name, email, password, role FROM admin_users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -33,13 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->fetch();
 
             if (password_verify($password, $hashedPassword) && $userRole === $role) {
-                // Login success
+
                 $_SESSION['user_id'] = $id;
                 $_SESSION['name'] = $name;
                 $_SESSION['email'] = $email_db;
                 $_SESSION['role'] = $role;
 
-                // Role-based redirection
+
                 if ($role === 'student') {
                     header("Location: student_dashboard.php");
                 } elseif ($role === 'SoD') {
@@ -91,12 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     --card-radius: 1.5rem;
 }
 
-/* Body and Global Styles */
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--light);
     color: var(--dark);
-    padding-top: 70px; /* For fixed navbar */
+    padding-top: 70px; 
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -511,7 +510,7 @@ footer {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Toggle password visibility
+
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.querySelector('input[name="password"]');
             const icon = this.querySelector('i');

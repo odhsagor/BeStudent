@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['admin']['role'] === 'adm
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
     
-    // Validation
     if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
         $error = "All fields are required!";
     } elseif ($new_password !== $confirm_password) {
@@ -25,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['admin']['role'] === 'adm
         $error = "Password must be at least 8 characters!";
     } else {
         try {
-            // Verify current password
             $stmt = $conn->prepare("SELECT password FROM admin_users WHERE id = ?");
             $stmt->bind_param("i", $_SESSION['admin']['id']);
             $stmt->execute();
@@ -33,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['admin']['role'] === 'adm
             $user = $result->fetch_assoc();
             
             if (password_verify($current_password, $user['password'])) {
-                // Update password
                 $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
                 $update = $conn->prepare("UPDATE admin_users SET password = ? WHERE id = ?");
                 $update->bind_param("si", $hashed_password, $user_id);

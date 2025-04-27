@@ -2,7 +2,6 @@
 session_start();
 require_once 'db_config.php';
 
-// Only allow admins to access this page
 if (!isset($_SESSION['admin']) || $_SESSION['admin']['role'] !== 'admin') {
     header("Location: adminRegister.php");
     exit();

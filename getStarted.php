@@ -1,9 +1,9 @@
 <?php
 
-$host = 'localhost';     // or 127.0.0.1
+$host = 'localhost';     
 $dbname = 'bestudent';
-$username = 'root';      // use your MySQL username
-$password = '';          // use your MySQL password
+$username = 'root';      
+$password = '';         
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -19,14 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role       = $_POST['role'];
     $department = $_POST['department'];
 
-    // Basic validation
     if (empty($name) || empty($email) || empty($password) || empty($role) || empty($department)) {
         $error = "Please fill in all required fields.";
     } else {
-        // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert user into database
         $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, department) VALUES (?, ?, ?, ?, ?)");
         try {
             $stmt->execute([$name, $email, $hashedPassword, $role, $department]);

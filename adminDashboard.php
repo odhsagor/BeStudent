@@ -1,5 +1,4 @@
 <?php
-// dashboard.php
 require 'config.php';
 
 if (!isset($_SESSION['user_id'])) {

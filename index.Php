@@ -10,10 +10,7 @@
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    <!-- Floating Particles Background -->
     <div id="particles-js"></div>
-    
-    <!-- Navbar with Large Logo -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">
@@ -33,8 +30,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Hero Section with Animated Elements -->
     <section class="hero-section text-center text-white">
         <div class="hero-content">
             <div class="floating-books">
@@ -196,7 +191,6 @@
         </div>
         
         <div class="testimonials-slider">
-            <!-- Testimonial 1 -->
             <div class="testimonial-card">
                 <div class="testimonial-content">
                     <div class="quote-icon">
@@ -213,7 +207,7 @@
                 </div>
             </div>
             
-            <!-- Testimonial 2 -->
+
             <div class="testimonial-card">
                 <div class="testimonial-content">
                     <div class="quote-icon">
@@ -230,7 +224,7 @@
                 </div>
             </div>
             
-            <!-- Testimonial 3 -->
+
             <div class="testimonial-card">
                 <div class="testimonial-content">
                     <div class="quote-icon">
@@ -249,7 +243,7 @@
         </div>
     </div>
 </section>
-    <!-- CTA Section -->
+
     <section class="cta-section">
         <div class="container">
             <div class="cta-content">

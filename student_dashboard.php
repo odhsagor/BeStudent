@@ -1,13 +1,10 @@
 <?php
 session_start();
 
-// Check if user is logged in and has student role
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'student') {
     header("Location: login.php");
     exit();
 }
-
-// Database connection with error handling
 $host = 'localhost';
 $user = 'root';
 $password = '';
@@ -20,7 +17,6 @@ try {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
 
-    // Get user data with prepared statement
     $user_id = $_SESSION['user_id'];
     $stmt = $conn->prepare("SELECT name, email, profile_image FROM users WHERE id = ?");
     if (!$stmt) {
@@ -33,13 +29,11 @@ try {
     $stmt->fetch();
     $stmt->close();
 
-    // Get student statistics with proper error handling
     $enrolled_courses = 0;
     $assignments_due = 0;
     $unread_messages = 0;
     $upcoming_events = 0;
 
-    // Enrolled courses count
     $stmt = $conn->prepare("SELECT COUNT(*) FROM student_courses WHERE student_id = ?");
     if ($stmt) {
         $stmt->bind_param("i", $user_id);
@@ -61,7 +55,6 @@ try {
         $stmt->close();
     }
 
-    // Unread messages count
     $stmt = $conn->prepare("SELECT COUNT(*) FROM messages WHERE recipient_id = ? AND is_read = 0");
     if ($stmt) {
         $stmt->bind_param("i", $user_id);
@@ -71,13 +64,11 @@ try {
         $stmt->close();
     }
 
-    // Upcoming events count
     $result = $conn->query("SELECT COUNT(*) FROM events WHERE event_date > NOW()");
     if ($result) {
         $upcoming_events = $result->fetch_row()[0];
     }
 
-    // Get enrolled courses with proper error handling
     $courses = [];
     $stmt = $conn->prepare("SELECT c.course_id, c.course_name, c.course_code, u.name AS instructor 
                           FROM courses c
@@ -98,10 +89,8 @@ try {
     $conn->close();
 
 } catch (Exception $e) {
-    // Log the error (in a real application, you would log to a file)
     error_log($e->getMessage());
     
-    // Display a user-friendly message
     die("An error occurred while processing your request. Please try again later.");
 }
 ?>
@@ -257,7 +246,7 @@ try {
             height: 100%;
             border-radius: 4px;
             background: linear-gradient(to right, var(--accent-color), var(--primary-color));
-            width: 65%; /* Example value - replace with actual progress */
+            width: 65%; 
         }
         
         .action-btn {
@@ -388,7 +377,6 @@ try {
             </div>
         </div>
 
-        <!-- Statistics Cards -->
         <div class="row animate__animated animate__fadeInUp">
             <div class="col-md-3">
                 <div class="stat-card">
@@ -550,12 +538,10 @@ try {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Animation trigger
         document.addEventListener('DOMContentLoaded', function() {
             const elements = document.querySelectorAll('.animate__animated');
             
             elements.forEach((element, index) => {
-                // Add delay based on index for staggered animation
                 element.style.animationDelay = `${index * 0.1}s`;
             });
         });

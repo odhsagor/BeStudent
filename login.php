@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Database connection (adjust credentials as needed)
 $host = 'localhost';
 $user = 'root';
 $password = '';
@@ -512,7 +511,7 @@ footer {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Toggle password visibility
+
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.querySelector('input[name="password"]');
             const icon = this.querySelector('i');
@@ -528,7 +527,7 @@ footer {
             }
         });
         
-        // Add animation to form elements when they come into view
+
         const animatedElements = document.querySelectorAll('.animated-field');
         
         const observer = new IntersectionObserver((entries) => {

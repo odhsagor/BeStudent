@@ -1,23 +1,20 @@
 <?php
 session_start();
 
-// Check if user is logged in and has faculty role
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'faculty') {
     header("Location: login.php");
     exit();
 }
 
-// Database connection
+
 require_once 'db.php';
 
 try {
-    // Get faculty information
     $faculty_id = $_SESSION['user_id'];
     $stmt = $pdo->prepare("SELECT name, email, department, profile_image FROM users WHERE id = ?");
     $stmt->execute([$faculty_id]);
     $faculty = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Get assigned courses with student counts
     $stmt = $pdo->prepare("SELECT c.course_id, c.course_code, c.course_name, 
                           COUNT(sc.student_id) as student_count
                           FROM courses c
@@ -27,8 +24,6 @@ try {
                           GROUP BY c.course_id");
     $stmt->execute([$faculty_id]);
     $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Get upcoming assignments with submission counts
     $stmt = $pdo->prepare("SELECT a.assignment_id, a.title, a.deadline, c.course_code,
                           COUNT(s.submission_id) as submission_count,
                           SUM(CASE WHEN s.score IS NULL THEN 1 ELSE 0 END) as ungraded_count
@@ -43,7 +38,6 @@ try {
     $stmt->execute([$faculty_id]);
     $assignments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Get recent announcements
     $stmt = $pdo->prepare("SELECT title, content, created_at 
                           FROM announcements 
                           WHERE target_role IN ('faculty', 'all')
@@ -52,7 +46,6 @@ try {
     $stmt->execute();
     $announcements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Calculate statistics
     $total_courses = count($courses);
     $total_students = array_sum(array_column($courses, 'student_count'));
     $total_assignments = count($assignments);

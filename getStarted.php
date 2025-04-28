@@ -255,11 +255,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </a>
         <div class="navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="getStarted.php">Get Started</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-                <li class="nav-item"><a class="nav-link" href="#SoDing">SoDing</a></li>
-                <li class="nav-item"><a class="nav-link" href="admin_login.php">Administrator Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="index.Php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="getStarted.php">Get Started</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Book">Book</a></li>
+                    <li class="nav-item"><a class="nav-link" href="adminRegister.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin_login.php">Administrator Login</a></li>
             </ul>
         </div>
     </div>

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeStudent | Collaborative Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="particles-js"></div>
@@ -21,9 +22,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="getStarted.php">Get Started</a></li>
+                    <li class="nav-item"><a class="nav-link btn-gradient mx-2" href="index.Php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="getStarted.php">Get Started</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Book">Book</a></li>
                     <li class="nav-item"><a class="nav-link" href="adminRegister.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="admin_login.php">Administrator Login</a></li>
                 </ul>
@@ -152,20 +155,7 @@
                         <li>Progress Reports</li>
                     </ul>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>AI Assistant</h3>
-                    <p>Get instant help with course concepts and homework questions</p>
-                    <ul class="feature-tags">
-                        <li>24/7 Help</li>
-                        <li>Math Solver</li>
-                        <li>Writing Feedback</li>
-                    </ul>
-                </div>
-                
+                                
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-trophy"></i>

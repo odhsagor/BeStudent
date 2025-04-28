@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
     $created_by = $_SESSION['admin']['id'];
 
-    // Validation
+
     if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
         $error = "All fields are required!";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -29,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Password must be at least 8 characters!";
     } else {
         try {
-            // Check if email exists
             $stmt = $conn->prepare("SELECT id FROM admin_users WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -38,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->num_rows > 0) {
                 $error = "Email already exists!";
             } else {
-                // Handle profile picture upload
                 $profile_picture = null;
                 if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
                     $upload_dir = 'uploads/profiles/';
@@ -55,10 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 
-                // Hash password
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                
-                // Insert new user
                 $insert = $conn->prepare("INSERT INTO admin_users 
                     (name, email, password, role, profile_picture, created_by) 
                     VALUES (?, ?, ?, ?, ?, ?)");
@@ -66,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 if ($insert->execute()) {
                     $success = "User registered successfully!";
-                    $_POST = []; // Clear form
+                    $_POST = []; 
                 } else {
                     $error = "Registration failed: " . $conn->error;
                 }
@@ -156,7 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        // Profile picture preview
         document.getElementById('profile_picture').addEventListener('change', function(e) {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();

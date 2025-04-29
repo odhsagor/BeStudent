@@ -23,7 +23,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="admin_dashboard.php"><i class="fas fa-home"></i> Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="salary.php"><i class="fas fa-money-bill-wave"></i> Salary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="add_pdf.php"><i class="fas fa-book"></i> Add Book</a></li>
+                    <li class="nav-item"><a class="nav-link" href="addBook.php"><i class="fas fa-book"></i> Add Book</a></li>
                     <li class="nav-item"><a class="nav-link" href="add_course.php"><i class="fas fa-plus-circle"></i> Add Course</a></li>
                     <li class="nav-item"><a class="nav-link" href="facultyList.php"><i class="fas fa-chalkboard-teacher"></i> Faculty</a></li>
                     <li class="nav-item"><a class="nav-link" href="sodList.php"><i class="fas fa-user-graduate"></i> SODs</a></li>

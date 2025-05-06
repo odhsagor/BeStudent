@@ -57,7 +57,7 @@ $student_name = $student ? $student['name'] : 'Student';
                         <a class="nav-link" href="courses.php"><i class="fas fa-book"></i> Courses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="books.php"><i class="fas fa-book-open"></i> Library</a>
+                        <a class="nav-link" href="library.php"><i class="fas fa-book-open"></i> Library</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="groups.php"><i class="fas fa-users"></i> Study Groups</a>
@@ -226,13 +226,13 @@ $student_name = $student ? $student['name'] : 'Student';
                     <h5>Contact</h5>
                     <ul class="footer-links">
                         <li><i class="fas fa-envelope me-2"></i> support@bestudent.edu</li>
-                        <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-map-marker-alt me-2"></i> Campus City, Edu 123</li>
+                        <li><i class="fas fa-phone me-2"></i> +8801312304166</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Dhaka Bangladesh</li>
                     </ul>
                 </div>
             </div>
             <div class="text-center pt-3 border-top">
-                <p class="mb-0">&copy; 2023 BeStudent. All rights reserved.</p>
+                <p class="mb-0">&copy; 2025 BeStudent. All rights reserved.</p>
             </div>
         </div>
     </footer>

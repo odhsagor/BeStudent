@@ -208,13 +208,13 @@ $conn = null;
                     <h5>Contact</h5>
                     <ul class="footer-links">
                         <li><i class="fas fa-envelope me-2"></i> support@bestudent.edu</li>
-                        <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-map-marker-alt me-2"></i> Campus City, Edu 123</li>
+                        <li><i class="fas fa-phone me-2"></i> +8801312394166</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Dhaka Bangladesh</li>
                     </ul>
                 </div>
             </div>
             <div class="text-center pt-3 border-top">
-                <p class="mb-0">&copy; 2023 BeStudent. All rights reserved.</p>
+                <p class="mb-0">&copy; 2025 BeStudent. All rights reserved.</p>
             </div>
         </div>
     </footer>

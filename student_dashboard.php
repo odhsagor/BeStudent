@@ -51,6 +51,9 @@ $student_name = $student ? $student['name'] : 'Student';
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="student_dashboard.php"><i class="fas fa-book"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="courses.php"><i class="fas fa-book"></i> Courses</a>
                     </li>
                     <li class="nav-item">

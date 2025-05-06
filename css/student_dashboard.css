@@ -7,7 +7,7 @@
     --white: #ffffff;
     --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     --card-radius: 15px;
-    --soft-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --soft-shadow: 0 8px 24px rgba(215, 63, 63, 0.959);
 }
 
 body {

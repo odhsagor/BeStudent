@@ -63,7 +63,7 @@ $student_name = $student ? $student['name'] : 'Student';
                         <a class="nav-link" href="groups.php"><i class="fas fa-users"></i> Study Groups</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="assignments.php"><i class="fas fa-tasks"></i> Assignments</a>
+                        <a class="nav-link" href="chat.php"><i class="fas fa-tasks"></i> Assignments</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="notifications.php">

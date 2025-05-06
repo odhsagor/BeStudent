@@ -1,63 +1,54 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$host = 'localhost';
+$dbname = 'bestudent';
+$username = 'root';
+$password = '';
+$conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'student') {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-$host = 'localhost';     
-$dbname = 'bestudent';
-$username = 'root';      
-$password = '';  
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database Connection Failed: " . $e->getMessage());
+$group_url = isset($_GET['group_url']) ? $_GET['group_url'] : null;
+if (!$group_url) {
+    header("Location: groups.php");
+    exit();
 }
 
-$group_id = isset($_GET['group_id']) ? $_GET['group_id'] : null;
-
-if (!$group_id) {
-    die("Group ID not specified");
-}
-
-$stmt = $conn->prepare("SELECT * FROM groups WHERE id = ?");
-$stmt->execute([$group_id]);
+$stmt = $conn->prepare("SELECT * FROM groups WHERE group_url = ?");
+$stmt->execute([$group_url]);
 $group = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$group) {
+    header("Location: groups.php");
+    exit();
+}
 
-$stmt = $conn->prepare("SELECT group_messages.*, users.name as sender_name 
-                        FROM group_messages
-                        JOIN users ON group_messages.sender_id = users.id
-                        WHERE group_messages.group_id = ?
-                        ORDER BY group_messages.created_at DESC");
-$stmt->execute([$group_id]);
+$stmt = $conn->prepare("SELECT * FROM group_chat WHERE group_id = ? ORDER BY created_at DESC");
+$stmt->execute([$group['id']]);
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'];
-    $file = $_FILES['file'];
+    $media = null;
 
-    $file_path = null;
-    if ($file && $file['error'] === UPLOAD_ERR_OK) {
-        $file_type = $file['type'] == 'application/pdf' ? 'pdf' : 'image';  
-        $file_path = 'uploads/groups/' . time() . '_' . basename($file['name']);
-        if (move_uploaded_file($file['tmp_name'], $file_path)) {
-        } else {
-            $file_path = null;
-        }
+    if (isset($_FILES['media']) && $_FILES['media']['error'] == 0) {
+        $media_name = time() . '_' . $_FILES['media']['name'];
+        $media_path = 'uploads/' . $media_name;
+        move_uploaded_file($_FILES['media']['tmp_name'], $media_path);
+        $media = $media_path;
     }
-    $stmt = $conn->prepare("INSERT INTO group_messages (group_id, sender_id, message, file_path) VALUES (?, ?, ?, ?)");
-    try {
-        $stmt->execute([$group_id, $_SESSION['user_id'], $message, $file_path]);
-        $success = "Message sent successfully!";
-    } catch (PDOException $e) {
-        $error = "Error: " . $e->getMessage();
-    }
+
+    $stmt = $conn->prepare("INSERT INTO group_chat (group_id, user_id, message, media_url) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$group['id'], $_SESSION['user_id'], $message, $media]);
+
+    header("Location: chat.php?group_url=" . $group['group_url']);
+    exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -65,77 +56,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Chat | <?php echo htmlspecialchars($group['group_name']); ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .chat-container {
-            height: 500px;
-            overflow-y: scroll;
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-
-        .chat-message {
-            padding: 10px;
-            margin: 5px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .chat-message img {
-            max-width: 50px;
-            max-height: 50px;
-            margin-right: 10px;
-        }
-
-        .message-header {
-            font-weight: bold;
-        }
-
-        .file-link {
-            color: #007bff;
-            text-decoration: none;
-        }
-    </style>
+    <title>Chat - <?= htmlspecialchars($group['group_name']) ?></title>
 </head>
 <body>
 
-<div class="container mt-5">
-    <h1>Group Chat: <?php echo htmlspecialchars($group['group_name']); ?></h1>
 
-    <?php if (isset($success)): ?>
-        <div class="alert alert-success"><?php echo $success; ?></div>
-    <?php endif; ?>
-    <?php if (isset($error)): ?>
-        <div class="alert alert-danger"><?php echo $error; ?></div>
-    <?php endif; ?>
-    <div class="chat-container">
-        <?php foreach ($messages as $message): ?>
-            <div class="chat-message">
-                <div class="message-header">
-                    <?php echo htmlspecialchars($message['sender_name']); ?> <small><?php echo $message['created_at']; ?></small>
-                </div>
-                <div class="message-content">
-                    <?php echo nl2br(htmlspecialchars($message['message'])); ?>
-                    <?php if ($message['file_path']): ?>
-                        <div class="file-content">
-                            <a href="<?php echo htmlspecialchars($message['file_path']); ?>" class="file-link" target="_blank">View File</a>
-                        </div>
-                    <?php endif; ?>
-                </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="student_dashboard.php">
+                <i class="fas fa-user-graduate"></i> Student Portal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="student_dashboard.php"><i class="fas fa-book"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create_group.php"><i class="fas fa-book"></i> create group</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="groups.php"><i class="fas fa-book"></i> Groups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="chat.php"><i class="fas fa-book-open"></i> chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="joinGroup.php"><i class="fas fa-users"></i> join Group</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notifications.php">
+                            <i class="fas fa-bell"></i> Notifications
+                            <span class="badge rounded-pill bg-accent ms-1">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
             </div>
-        <?php endforeach; ?>
-    </div>
-    <form method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-            <textarea class="form-control" name="message" placeholder="Type your message..." rows="3" required></textarea>
         </div>
-        <div class="mb-3">
-            <input type="file" class="form-control" name="file" accept="application/pdf, image/*">
-        </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-    </form>
-</div>
+    </nav>
+<h1>Chat - <?= htmlspecialchars($group['group_name']) ?></h1>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<h3>Messages</h3>
+<?php foreach ($messages as $message): ?>
+    <div>
+        <strong><?= htmlspecialchars($message['user_name']) ?>:</strong>
+        <p><?= htmlspecialchars($message['message']) ?></p>
+        <?php if ($message['media_url']): ?>
+            <img src="<?= htmlspecialchars($message['media_url']) ?>" alt="Media" style="max-width: 200px;">
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+
+<form action="chat.php?group_url=<?= htmlspecialchars($group['group_url']) ?>" method="POST" enctype="multipart/form-data">
+    <textarea name="message" placeholder="Type your message..." required></textarea><br>
+    <input type="file" name="media" accept="image/*,application/pdf"><br>
+    <button type="submit">Send Message</button>
+</form>
+
 </body>
 </html>

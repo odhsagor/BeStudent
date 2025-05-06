@@ -9,21 +9,18 @@ $password = '';
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $group_name = $_POST['group_name'];
+    $group_url = strtolower(str_replace(" ", "-", $group_name)); 
     $description = $_POST['description'];
-    $approve_by_creator = isset($_POST['approve_by_creator']) ? 1 : 0;
-    $group_url = uniqid('group_');  
-    $stmt = $conn->prepare("INSERT INTO groups (group_name, description, creator_id, approve_by_creator, group_url) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$group_name, $description, $_SESSION['user_id'], $approve_by_creator, $group_url]);
+    $approve_by_creator = $_POST['approve_by_creator'];
 
-    $success = "Group created successfully!";
+    $stmt = $conn->prepare("INSERT INTO groups (group_name, group_url, description, approve_by_creator) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$group_name, $group_url, $description, $approve_by_creator]);
+
+    header("Location: group.php?group_url=" . $group_url);
+    exit();
 }
-$search_term = isset($_POST['search']) ? $_POST['search'] : '';
-$groups_query = "SELECT * FROM groups WHERE group_name LIKE ?";
-$stmt = $conn->prepare($groups_query);
-$stmt->execute(["%$search_term%"]);
-$groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +28,7 @@ $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Groups</title>
+    <title>Create Group</title>
 </head>
 <body>
 
@@ -75,37 +72,20 @@ $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </nav>
-<h1>Groups</h1>
-<h2>Create New Group</h2>
-<form method="POST">
-    <label for="group_name">Group Name:</label>
-    <input type="text" name="group_name" required><br><br>
+    <form action="create_group.php" method="POST">
+        <label for="group_name">Group Name:</label>
+        <input type="text" name="group_name" required><br>
 
-    <label for="description">Description:</label>
-    <textarea name="description" required></textarea><br><br>
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea><br>
 
-    <label for="approve_by_creator">Approve new members (Group creator must approve join requests)</label>
-    <input type="checkbox" name="approve_by_creator"><br><br>
+        <label for="approve_by_creator">Require Approval:</label>
+        <select name="approve_by_creator" required>
+            <option value="1">Yes, Approval Required</option>
+            <option value="0">No, Auto Join</option>
+        </select><br>
 
-    <button type="submit" name="create_group">Create Group</button>
-</form>
-
-<?php if (isset($success)): ?>
-    <div class="success"><?= $success; ?></div>
-<?php endif; ?>
-<h2>Search Groups</h2>
-<form method="POST">
-    <input type="text" name="search" placeholder="Search group by name">
-    <button type="submit">Show</button>
-</form>
-<h3>Available Groups</h3>
-<?php foreach ($groups as $group): ?>
-    <div>
-        <h4><?= htmlspecialchars($group['group_name']); ?></h4>
-        <p><?= htmlspecialchars($group['description']); ?></p>
-        <a href="joinGroup.php?group_url=<?= $group['group_url']; ?>">Join Group</a>
-    </div>
-<?php endforeach; ?>
-
+        <button type="submit">Create Group</button>
+    </form>
 </body>
 </html>

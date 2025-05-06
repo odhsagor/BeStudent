@@ -9,21 +9,41 @@ $password = '';
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group'])) {
-    $group_name = $_POST['group_name'];
-    $description = $_POST['description'];
-    $approve_by_creator = isset($_POST['approve_by_creator']) ? 1 : 0;
-    $group_url = uniqid('group_');  
-    $stmt = $conn->prepare("INSERT INTO groups (group_name, description, creator_id, approve_by_creator, group_url) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$group_name, $description, $_SESSION['user_id'], $approve_by_creator, $group_url]);
-
-    $success = "Group created successfully!";
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
 }
-$search_term = isset($_POST['search']) ? $_POST['search'] : '';
-$groups_query = "SELECT * FROM groups WHERE group_name LIKE ?";
-$stmt = $conn->prepare($groups_query);
-$stmt->execute(["%$search_term%"]);
-$groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$group_url = isset($_GET['group_url']) ? $_GET['group_url'] : null;
+if (!$group_url) {
+    header("Location: groups.php");
+    exit();
+}
+
+$stmt = $conn->prepare("SELECT * FROM groups WHERE group_url = ?");
+$stmt->execute([$group_url]);
+$group = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$group) {
+    header("Location: groups.php");
+    exit();
+}
+
+$stmt = $conn->prepare("SELECT * FROM group_members WHERE group_id = ? AND user_id = ?");
+$stmt->execute([$group['id'], $_SESSION['user_id']]);
+$membership = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($group['approve_by_creator'] == 1 && !$membership) {
+        $stmt = $conn->prepare("INSERT INTO join_requests (group_id, user_id) VALUES (?, ?)");
+        $stmt->execute([$group['id'], $_SESSION['user_id']]);
+        $message = "Your join request has been sent. Await approval.";
+    } elseif ($group['approve_by_creator'] == 0 && !$membership) {
+        $stmt = $conn->prepare("INSERT INTO group_members (group_id, user_id) VALUES (?, ?)");
+        $stmt->execute([$group['id'], $_SESSION['user_id']]);
+        $message = "You have successfully joined the group!";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,10 +51,9 @@ $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Groups</title>
+    <title>Join Group</title>
 </head>
 <body>
-
 
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -75,37 +94,19 @@ $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </nav>
-<h1>Groups</h1>
-<h2>Create New Group</h2>
-<form method="POST">
-    <label for="group_name">Group Name:</label>
-    <input type="text" name="group_name" required><br><br>
+    <h1><?= htmlspecialchars($group['group_name']) ?></h1>
+    <p><?= htmlspecialchars($group['description']) ?></p>
 
-    <label for="description">Description:</label>
-    <textarea name="description" required></textarea><br><br>
+    <?php if (isset($message)): ?>
+        <div class="alert"><?= $message ?></div>
+    <?php endif; ?>
 
-    <label for="approve_by_creator">Approve new members (Group creator must approve join requests)</label>
-    <input type="checkbox" name="approve_by_creator"><br><br>
-
-    <button type="submit" name="create_group">Create Group</button>
-</form>
-
-<?php if (isset($success)): ?>
-    <div class="success"><?= $success; ?></div>
-<?php endif; ?>
-<h2>Search Groups</h2>
-<form method="POST">
-    <input type="text" name="search" placeholder="Search group by name">
-    <button type="submit">Show</button>
-</form>
-<h3>Available Groups</h3>
-<?php foreach ($groups as $group): ?>
-    <div>
-        <h4><?= htmlspecialchars($group['group_name']); ?></h4>
-        <p><?= htmlspecialchars($group['description']); ?></p>
-        <a href="joinGroup.php?group_url=<?= $group['group_url']; ?>">Join Group</a>
-    </div>
-<?php endforeach; ?>
-
+    <?php if ($group['approve_by_creator'] == 1 && !$membership): ?>
+        <form method="POST">
+            <button type="submit" name="join_group">Request to Join</button>
+        </form>
+    <?php elseif ($group['approve_by_creator'] == 0 && !$membership): ?>
+        <p>You can join this group automatically.</p>
+    <?php endif; ?>
 </body>
 </html>

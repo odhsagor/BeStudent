@@ -100,5 +100,8 @@ $pending_count = $admin_stmt->fetch()['pending_count'];
     <?php endif; ?>
     
     <p><a href="group.php">Browse all groups</a></p>
+
+
+    
 </body>
 </html>

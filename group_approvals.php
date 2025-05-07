@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_request'])) {
     <title>Group Join Requests</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/">
+    <link rel="stylesheet" href="css/group_approval.css">
 </head>
 <body>
 
@@ -130,5 +130,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_request'])) {
     <?php endif; ?>
     
     <p><a href="group.php">Back to Groups</a></p>
+
+
+
+    
 </body>
 </html>

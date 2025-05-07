@@ -55,13 +55,10 @@ $conn = null;
                         <a class="nav-link" href="group.php"><i class="fas fa-users"></i> Study Groups</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="assignments.php"><i class="fas fa-tasks"></i> Assignments</a>
+                        <a class="nav-link" href="#"><i class="fas fa-tasks"></i> Assignments</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="notifications.php">
-                            <i class="fas fa-bell"></i> Notifications
-                            <span class="badge rounded-pill bg-accent ms-1">3</span>
-                        </a>
+                        <a class="nav-link" href="#"><i class="fas fa-tasks"></i>JOB</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>

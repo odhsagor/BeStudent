@@ -19,7 +19,7 @@
     --card-radius: 1.5rem;
 }
 
-/* Base Styles */
+
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--light);
@@ -27,10 +27,10 @@ body {
     line-height: 1.7;
     margin: 0;
     padding: 0;
-    padding-top: 80px; /* Space for fixed navbar */
+    padding-top: 80px;
 }
 
-/* Navigation Styles */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -129,17 +129,20 @@ body {
     margin-left: 0.5rem;
 }
 
-/* Main Content Styles */
+
 .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto;  
     padding: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 h1, h2, h3 {
     font-weight: 700;
     line-height: 1.2;
     color: var(--dark);
+    
 }
 
 h1 {
@@ -152,7 +155,7 @@ h1 {
     text-align: center;
 }
 
-/* Groups List Styles */
+
 .groups-container {
     max-width: 800px;
     margin: 0 auto;
@@ -167,6 +170,8 @@ h1 {
     transition: all 0.3s ease;
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-left: 10%; 
+    margin-right: 10%; 
 }
 
 .group-item:hover {
@@ -175,6 +180,7 @@ h1 {
 }
 
 .group-item h3 {
+    text-align: center;
     color: var(--primary);
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
@@ -183,6 +189,7 @@ h1 {
 .group-item p {
     color: var(--gray);
     margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .group-item small {
@@ -203,7 +210,7 @@ h1 {
     margin-left: 0.5rem;
 }
 
-/* Links and Buttons */
+
 a {
     color: var(--primary);
     text-decoration: none;
@@ -236,7 +243,8 @@ a:hover {
     text-decoration: none;
 }
 
-/* Empty State */
+
+
 .empty-state {
     text-align: center;
     padding: 3rem;
@@ -246,7 +254,7 @@ a:hover {
     margin: 2rem 0;
 }
 
-/* Mobile Menu Styles */
+
 .navbar-toggler {
     display: none;
     border: none;
@@ -257,7 +265,10 @@ a:hover {
     cursor: pointer;
 }
 
-/* Responsive Adjustments */
+
+
+
+
 @media (max-width: 992px) {
     .navbar-container {
         padding: 0 1.5rem;

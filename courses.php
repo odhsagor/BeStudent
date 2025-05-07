@@ -100,7 +100,7 @@ $conn = null;
                         <a class="nav-link" href="library.php"><i class="fas fa-book-open"></i> Library</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="groups.php"><i class="fas fa-users"></i> Study Groups</a>
+                        <a class="nav-link" href="group.php"><i class="fas fa-users"></i> Study Groups</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="assignments.php"><i class="fas fa-tasks"></i> Assignments</a>
